@@ -64,14 +64,50 @@ const productsPurchased = (orderVals, productVals) => {
     let found = orderVals.find(element => {
       return element.productId === currentValue.id;
     });
-    //console.log(`Acc right now is ${accumulator}`);
-    //return accumulator.concat(currentValue);
+    if (found) accumulator.push(currentValue);
+    return accumulator;
+  }, []);
+};
+
+const topSellingProductByQuantity = (orderVals, productVals) => {
+  const prodSold = productsPurchased(orderVals, productVals);
+  //track quantity for products sold
+  prodSold.forEach(elem => {
+    elem.quantity = 0;
+  });
+
+  orderVals.forEach(elem => {
+    let found = prodSold.find(element => {
+      // eslint-disable-next-line no-return-assign
+      return element.id === elem.productId;
+    });
+    if (found) found.quantity += elem.quantity * found.price;
+  });
+  return prodSold.reduce((acc, curr) => {
+    if (acc.length === 0) {
+      acc.push(curr);
+    } else if (acc[0].quantity < curr.quantity) {
+      acc[0] = curr;
+    }
+    return acc;
+  }, []);
+};
+
+const usersWithOrders = (userVals, orderVals) => {
+  //reduce the products array to only the products that have been purchased
+  return userVals.reduce((accumulator, currentValue) => {
+    //search the orders for the user id
+    let found = orderVals.find(element => {
+      return element.userId === currentValue.id;
+    });
     if (found) accumulator.push(currentValue);
     return accumulator;
   }, []);
 };
 
 console.log(productsPurchased(orders, products));
+console.log(topSellingProductByQuantity(orders, products));
+console.log(usersWithOrders(users, orders)); //logs info on moe and curly
 
 //why does this give me an error when I run it in node
 //Also the test was still able to pick up the file even with this commented out
