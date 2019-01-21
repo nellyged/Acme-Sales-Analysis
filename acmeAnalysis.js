@@ -84,10 +84,13 @@ const topSellingProductByQuantity = (orderVals, productVals) => {
     if (found) found.quantity += elem.quantity * found.price;
   });
   return prodSold.reduce((acc, curr) => {
+    //find the max sold, if multiple have the same value then return all that do
     if (acc.length === 0) {
       acc.push(curr);
     } else if (acc[0].quantity < curr.quantity) {
       acc[0] = curr;
+    } else if (acc[0].quantity === curr.quantity) {
+      acc.push(curr);
     }
     return acc;
   }, []);
