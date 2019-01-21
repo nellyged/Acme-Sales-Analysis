@@ -107,7 +107,7 @@ const usersWithOrders = (userVals, orderVals) => {
 
 console.log(productsPurchased(orders, products));
 console.log(topSellingProductByQuantity(orders, products));
-console.log(usersWithOrders(users, orders)); //logs info on moe and curly
+console.log(usersWithOrders(users, orders));
 
 //why does this give me an error when I run it in node
 //Also the test was still able to pick up the file even with this commented out
